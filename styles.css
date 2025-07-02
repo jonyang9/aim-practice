@@ -35,14 +35,29 @@ main {
 
 .control-panel {
     padding: 2rem;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
 }
 
 p {
-    text-align: center;
+    font-size: 3rem;
 }
 
 .btn-container {
     display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.btn-container > * {
+    border: 1px solid black;
+    padding: 1rem;
 }
 
 footer {
