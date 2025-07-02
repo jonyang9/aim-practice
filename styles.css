@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    border-bottom: 1px solid black;
+}
+
+h1 {
+    text-align: center;
+    border: 1px solid black;
+    width: 50%;
+    margin: 0 auto;
+    padding: 0.5rem;
+    font-size: 5rem;
+}
+
+main {
+    flex: 1 1 auto;
+    background-color: lightblue;
+    padding: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.control-panel {
+    padding: 2rem;
+}
+
+p {
+    text-align: center;
+}
+
+.btn-container {
+    display: flex;
+}
+
+footer {
+    padding: 1rem;
+}
+
