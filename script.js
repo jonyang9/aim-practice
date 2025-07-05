@@ -3,6 +3,7 @@
 const header = document.querySelector("header");
 const main = document.querySelector("main");
 const footer = document.querySelector("footer");
+const h1 = document.querySelector("h1");
 
 const colorSelectPanel = document.querySelector(".color-select-bg");
 const scoresPanel = document.querySelector(".scores-bg");
@@ -13,6 +14,7 @@ const timer = document.querySelector(".timer");
 
 const difficultyButtonsContainer = document.querySelector(".difficulty-buttons");
 const headerTimer = document.querySelector(".header-timer");
+const headerScore = document.querySelector(".header-score");
 
 const difficultyText = document.querySelector(".difficulty-text");
 
@@ -25,13 +27,15 @@ const colorSelectButton = document.querySelector(".color-select-button");
 const scoresButton = document.querySelector(".scores-button");
 
 // Game variables
-let score;
+let score = 0;
 let difficulty = "Easy";
-let gameDuration = 20;
+let gameDuration = 9;
+let gameTimeLeft;
 let targetSize;
 let targetOnScreenDuration = 1.5 * 1000;
 let targetPauseDuration = 0.8 * 1000;
 let spawnInterval;
+let targetSpawnTime;
 
 // Scores variable, store objects containing the score, difficulty, and date
 let scores;
@@ -46,6 +50,9 @@ playButton.addEventListener("click", async (event) => {
     controlPanel.style.display = "none";
     scoresPanel.style.display = "none";
     colorSelectPanel.style.display = "none";
+    timer.style.display = "block";
+
+    resetGame();
 
     let countdown = 3;
     while (countdown > 0) {
@@ -53,6 +60,10 @@ playButton.addEventListener("click", async (event) => {
         await delay(1000);
         countdown--;
     }
+
+    timer.style.display = "none";
+    startGame();
+
 });
 
 function delay(ms) {
@@ -60,32 +71,42 @@ function delay(ms) {
 }
 
 function startGame() {
-    // remove the timer and footer
-    timer.style.display = "none";
-    footer.style.display = "none";
-
+    startTimer();
+    spawnTarget();
 }
 
 function startTimer() {
-    headerTimer.textContent = gameDuration;
-    const timerInterval = setInterval(() => {
-        gameDuration--;
-        headerTimer.textContent = gameDuration;
+    headerTimer.textContent = `Time: ${gameTimeLeft}`;
+    headerScore.textContent = `Score: ${score}`;
+    header.style.display = "flex";
+    h1.style.display = "none";
+    headerTimer.style.display = "block";
+    headerScore.style.display = "block";
+    console.log(gameTimeLeft);
 
-        if (gameDuration <= 0) {
+    const timerInterval = setInterval(async () => {
+        gameTimeLeft--;
+        headerTimer.textContent = `Time: ${gameTimeLeft}`;
+
+        console.log(gameTimeLeft);
+
+        if (gameTimeLeft <= 0) {
+            console.log("Game Over");
             // clear all timers/timeouts and kill existing circle
             clearInterval(timerInterval);
             clearTimeout(spawnTimeout);
             target.style.display = "none";
 
-            // wait one second after the game then show score
-            
+            // wait one second after the game then show score, play sound
+            await delay(1000);
+
+
         }
     }, 1000);
 }
 
 function spawnTarget() {
-    if (gameDuration <= 0) return;
+    if (gameTimeLeft <= 0) return;
 
     // padding so targets don't appear right at the edges of the screen (px)
     target.style.display = "block";
@@ -96,6 +117,8 @@ function spawnTarget() {
     const maxY = parseFloat(mainStyle.height) - (2 * padding) - parseFloat(targetStyle.height);
     target.style.left = (Math.floor(Math.random() * maxX) + padding) + "px";
     target.style.top = (Math.floor(Math.random() * maxY) + padding) + "px";
+
+    targetSpawnTime = Date.now();
 
     spawnTimeout = setTimeout(() => {
         target.style.display = "none";
@@ -108,6 +131,13 @@ function spawnTarget() {
 
 target.addEventListener("click", (event) => {
     target.style.display = "none";
+
+    const reactionTime = Date.now() - targetSpawnTime;
+    const maxScore = 1000;
+    const fraction = (targetOnScreenDuration - reactionTime) / targetOnScreenDuration;
+    score += Math.round(fraction * maxScore);
+    headerScore.textContent = `Score: ${score}`;
+
     clearTimeout(spawnTimeout);
     setTimeout(() => {
         spawnTarget();
@@ -116,7 +146,19 @@ target.addEventListener("click", (event) => {
 
 // Sets the target size and spawn interval based on the value of difficulty
 function setDifficulty() {
-
+    if (difficulty === "Easy") {
+        target.style.width = "80px";
+        target.style.height = "80px";
+        targetOnScreenDuration = 1.4 * 1000;
+    } else if (difficulty === "Medium") {
+        target.style.width = "60px";
+        target.style.height = "60px";
+        targetOnScreenDuration = 1 * 1000;
+    } else {
+        target.style.width = "40px";
+        target.style.height = "40px";
+        targetOnScreenDuration = 0.4 * 1000;
+    }
 }
 
 difficultyButton.addEventListener("click", (event) => {
@@ -167,9 +209,15 @@ difficultyButtonsContainer.addEventListener("click", (event) => {
         child.style.display = "none";
     }
     
+    setDifficulty();
     controlPanel.style.display = "block";
     }
 });
 
-spawnTarget();
+function resetGame() {
+    score = 0;
+    gameTimeLeft = gameDuration;
+}
+
+// spawnTarget();
 

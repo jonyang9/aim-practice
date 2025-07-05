@@ -19,6 +19,9 @@ body {
 
 header {
     border-bottom: 1px solid black;
+
+    display: flex;
+    justify-content: center;
 }
 
 h1 {
@@ -32,6 +35,16 @@ h1 {
 
 .header-timer {
     display: none;
+    text-align: center;
+    font-size: 2rem;
+    margin: 1rem;
+}
+
+.header-score {
+    display: none;
+    text-align: center;
+    font-size: 2rem;
+    margin: 1rem;
 }
 
 main {
@@ -216,6 +229,7 @@ th:nth-child(3), td:nth-child(3) {
 
 .timer {
     font-size: 3rem;
+    display: none;
 }
 
 .back-button-bg {
