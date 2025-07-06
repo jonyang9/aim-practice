@@ -5,19 +5,20 @@ const main = document.querySelector("main");
 const footer = document.querySelector("footer");
 const h1 = document.querySelector("h1");
 
-const colorSelectPanel = document.querySelector(".color-select-bg");
 const scoresPanel = document.querySelector(".scores-bg");
 const difficultyPanel = document.querySelector(".difficulty-bg");
 const controlPanel = document.querySelector(".control-panel-bg");
-const backButton = document.querySelector(".back-button-bg");
-const timer = document.querySelector(".timer");
+const gameOverPanel = document.querySelector(".gameover-panel");
 
 const difficultyButtonsContainer = document.querySelector(".difficulty-buttons");
+
+// Text elements
 const headerTimer = document.querySelector(".header-timer");
 const headerScore = document.querySelector(".header-score");
+const gameOverScore = document.querySelector(".gameover-score");
+const timer = document.querySelector(".timer");
 
-const difficultyText = document.querySelector(".difficulty-text");
-
+// Target element
 const target = document.querySelector(".target");
 
 // Button elements
@@ -25,6 +26,7 @@ const playButton = document.querySelector(".play-button");
 const difficultyButton = document.querySelector(".difficulty-button");
 const colorSelectButton = document.querySelector(".color-select-button");
 const scoresButton = document.querySelector(".scores-button");
+const backButton = document.querySelector(".back-button-bg");
 
 // Game variables
 let score = 0;
@@ -36,22 +38,20 @@ let targetOnScreenDuration = 1.5 * 1000;
 let targetPauseDuration = 0.8 * 1000;
 let spawnInterval;
 let targetSpawnTime;
+let spawnTimeout;
 
 // Scores variable, store objects containing the score, difficulty, and date
 let scores;
 
-// Circle spawner timeout
-let spawnTimeout;
 
 
 playButton.addEventListener("click", async (event) => {
     header.style.display = "none";
     footer.style.display = "none";
     controlPanel.style.display = "none";
-    scoresPanel.style.display = "none";
-    colorSelectPanel.style.display = "none";
     timer.style.display = "block";
 
+    setDifficulty();
     resetGame();
 
     let countdown = 3;
@@ -97,10 +97,14 @@ function startTimer() {
             clearTimeout(spawnTimeout);
             target.style.display = "none";
 
-            // wait one second after the game then show score, play sound
-            await delay(1000);
+            // wait a bit after the game then show score, play sound
+            await delay(2000);
 
-
+            header.style.display = "none";
+            gameOverPanel.style.display = "flex";
+            gameOverScore.textContent = `Final Score: ${score}`;
+            backButton.style.display = "block";
+            addNewScore();
         }
     }, 1000);
 }
@@ -142,7 +146,27 @@ target.addEventListener("click", (event) => {
     setTimeout(() => {
         spawnTarget();
     }, targetPauseDuration);
-}); 
+});
+
+function addNewScore() {
+    const table = document.querySelector("table");
+    const tr = document.createElement("tr");
+    for (let i = 0; i < 3; i++) {
+        const td = document.createElement("td");
+        if (i === 0) {
+            td.textContent = score;
+        } else if (i === 1) {
+            td.textContent = difficulty;
+        } else {
+            const currDate = new Date();
+            const dateString = currDate.toDateString();
+            td.textContent = dateString;
+        }
+        tr.appendChild(td);
+    }
+    table.appendChild(tr);
+
+}
 
 // Sets the target size and spawn interval based on the value of difficulty
 function setDifficulty() {
@@ -182,6 +206,7 @@ backButton.addEventListener("click", (event) => {
 
 colorSelectButton.addEventListener("click", (event) => {
     controlPanel.style.display = "none";
+    const colorSelectPanel = document.querySelector(".color-select-bg");
     colorSelectPanel.style.display = "block";
     backButton.style.display = "block";
 });
@@ -193,6 +218,7 @@ scoresButton.addEventListener("click", (event) => {
 });
 
 difficultyButtonsContainer.addEventListener("click", (event) => {
+    const difficultyText = document.querySelector(".difficulty-text");
     if (event.target !== difficultyButtonsContainer) {
         const parts = difficultyText.textContent.split(":");
         parts[1] = ` ${event.target.textContent}`;
@@ -209,7 +235,6 @@ difficultyButtonsContainer.addEventListener("click", (event) => {
         child.style.display = "none";
     }
     
-    setDifficulty();
     controlPanel.style.display = "block";
     }
 });
@@ -219,5 +244,5 @@ function resetGame() {
     gameTimeLeft = gameDuration;
 }
 
-// spawnTarget();
+
 

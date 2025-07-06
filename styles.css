@@ -260,7 +260,23 @@ th:nth-child(3), td:nth-child(3) {
     display: none;
 }
 
+.gameover-panel {
+    display: none;
 
+    /* display: flex; */
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+
+}
+
+.gameover-text {
+    font-size: 4rem;
+}
+
+.gameover-score {
+    font-size: 2rem;
+}
 
 
 
