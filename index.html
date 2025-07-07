@@ -19,10 +19,10 @@
             <div class="control-panel">
                 <p>Do you have crisp aim?</p>
                 <div class="btn-container">
-                    <div class="play-button">play</div>
-                    <div class="difficulty-button">difficulty</div>
-                    <div class="color-select-button">select color</div>
-                    <div class="scores-button">view scores</div>
+                    <div class="play-button button">play</div>
+                    <div class="difficulty-button button">difficulty</div>
+                    <div class="color-select-button button">select color</div>
+                    <div class="scores-button button">view scores</div>
                 </div>
                 <p class="difficulty-text">Difficulty: Easy</p>
             </div>
@@ -32,9 +32,9 @@
             <div class="difficulty">
                 <p>Choose your difficulty! The targets spawn quicker and are smaller!</p>
                 <div class="difficulty-buttons">
-                    <div class="easy">Easy</div>
-                    <div class="medium">Medium</div>
-                    <div class="hard">Hard</div>
+                    <div class="easy button">Easy</div>
+                    <div class="medium button">Medium</div>
+                    <div class="hard button">Hard</div>
                 </div>
             </div>
         </div>
@@ -53,9 +53,35 @@
 
         <div class="color-select-bg">
             <div class="color-select">
-                <div class="color-theme-1">theme 1</div>
-                <div class="color-theme-2">theme 2</div>
-                <div class="color-theme-3">theme 3</div>
+
+                <div class="color-theme-container">
+                    <div class="color-theme theme-1 button">
+                        <div class="color-theme-outer-target theme-1">
+                            <div class="color-theme-inner-target theme-1"></div>
+                        </div>
+                    </div>
+                    <div class="color-theme-text">Theme 1</div>
+                </div>
+
+                <div class="color-theme-container">
+                    <div class="color-theme theme-2 button">
+                        <div class="color-theme-outer-target theme-2">
+                            <div class="color-theme-inner-target theme-2"></div>
+                        </div>
+                    </div>
+                    <div class="color-theme-text">Theme 2</div>
+                </div>
+
+                <div class="color-theme-container">
+                    <div class="color-theme theme-3 button">
+                        <div class="color-theme-outer-target theme-3">
+                            <div class="color-theme-inner-target theme-3"></div>
+                        </div>
+                    </div>
+                    <div class="color-theme-text">Theme 3</div>
+                </div>
+
+
             </div>
         </div>
 
@@ -67,11 +93,13 @@
             <div class="gameover-score"></div>
         </div>
 
-        <div class="back-button-bg">
+        <div class="back-button-bg button">
             <div class="back-button">Back</div>
         </div>
 
-        <div class="target"></div>
+        <div class="target">
+            <div class="inner-target"></div>
+        </div>
 
 
     </main>

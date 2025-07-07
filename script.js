@@ -8,6 +8,7 @@ const h1 = document.querySelector("h1");
 const scoresPanel = document.querySelector(".scores-bg");
 const difficultyPanel = document.querySelector(".difficulty-bg");
 const controlPanel = document.querySelector(".control-panel-bg");
+const colorSelectPanel = document.querySelector(".color-select-bg");
 const gameOverPanel = document.querySelector(".gameover-panel");
 
 const difficultyButtonsContainer = document.querySelector(".difficulty-buttons");
@@ -18,8 +19,9 @@ const headerScore = document.querySelector(".header-score");
 const gameOverScore = document.querySelector(".gameover-score");
 const timer = document.querySelector(".timer");
 
-// Target element
+// Target elements
 const target = document.querySelector(".target");
+const innerTarget = document.querySelector(".inner-target");
 
 // Button elements
 const playButton = document.querySelector(".play-button");
@@ -121,6 +123,7 @@ function spawnTarget() {
     const maxY = parseFloat(mainStyle.height) - (2 * padding) - parseFloat(targetStyle.height);
     target.style.left = (Math.floor(Math.random() * maxX) + padding) + "px";
     target.style.top = (Math.floor(Math.random() * maxY) + padding) + "px";
+    target.style.padding = (parseFloat(targetStyle.width) * 0.13) + "px";
 
     targetSpawnTime = Date.now();
 
@@ -173,11 +176,11 @@ function setDifficulty() {
     if (difficulty === "Easy") {
         target.style.width = "80px";
         target.style.height = "80px";
-        targetOnScreenDuration = 1.4 * 1000;
+        targetOnScreenDuration = 1 * 1000;
     } else if (difficulty === "Medium") {
         target.style.width = "60px";
         target.style.height = "60px";
-        targetOnScreenDuration = 1 * 1000;
+        targetOnScreenDuration = 0.8 * 1000;
     } else {
         target.style.width = "40px";
         target.style.height = "40px";
@@ -201,12 +204,16 @@ backButton.addEventListener("click", (event) => {
         child.style.display = "none";
     }
 
+    header.style.display = "flex";
+    headerScore.style.display = "none";
+    headerTimer.style.display = "none";
+    h1.style.display = "block";
+    footer.style.display = "block";
     controlPanel.style.display = "block";
 });
 
 colorSelectButton.addEventListener("click", (event) => {
     controlPanel.style.display = "none";
-    const colorSelectPanel = document.querySelector(".color-select-bg");
     colorSelectPanel.style.display = "block";
     backButton.style.display = "block";
 });
@@ -216,6 +223,32 @@ scoresButton.addEventListener("click", (event) => {
     scoresPanel.style.display = "block";
     backButton.style.display = "block";
 });
+
+document.querySelectorAll(".color-theme").forEach((theme) => {
+    theme.addEventListener("click", () => {
+        const outer = theme.querySelector('.color-theme-outer-target');
+        const inner = theme.querySelector('.color-theme-inner-target');
+
+        const themeStyle = getComputedStyle(theme);
+        const outerStyle = getComputedStyle(outer);
+        const innerStyle = getComputedStyle(inner);
+
+        main.style.backgroundColor = themeStyle.backgroundColor;
+        target.style.backgroundColor = outerStyle.backgroundColor;
+        innerTarget.style.backgroundColor = innerStyle.backgroundColor;
+
+        const visibleChildren = Array.from(main.children).filter((child) => {
+            const style = getComputedStyle(child);
+            return style.display !== 'none';
+        });
+
+        for (const child of visibleChildren) {
+            child.style.display = "none";
+        }
+    
+        controlPanel.style.display = "block";
+    })
+})
 
 difficultyButtonsContainer.addEventListener("click", (event) => {
     const difficultyText = document.querySelector(".difficulty-text");
