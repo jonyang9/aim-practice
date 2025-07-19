@@ -208,7 +208,7 @@ backButton.addEventListener("click", (event) => {
     headerScore.style.display = "none";
     headerTimer.style.display = "none";
     h1.style.display = "block";
-    footer.style.display = "block";
+    footer.style.display = "flex";
     controlPanel.style.display = "block";
 });
 
