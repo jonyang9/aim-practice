@@ -33,7 +33,7 @@ const backButton = document.querySelector(".back-button-bg");
 // Game variables
 let score = 0;
 let difficulty = "Easy";
-let gameDuration = 9;
+let gameDuration = 20;
 let gameTimeLeft;
 let targetSize;
 let targetOnScreenDuration = 1.5 * 1000;

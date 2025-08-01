@@ -221,6 +221,7 @@ th:nth-child(3), td:nth-child(3) {
     border: 1px solid black;
     background-color: var(--bg-color);
     padding: 1rem;
+    border-radius: 15px;
     
     /* DELETE */
     display: none;
@@ -230,6 +231,7 @@ th:nth-child(3), td:nth-child(3) {
     border: 1px solid black;
     background-color: var(--inner-color);
     padding: 1.5rem;
+    border-radius: 15px;
 
     display: flex;
     gap: 3rem;
